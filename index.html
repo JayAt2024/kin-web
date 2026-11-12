@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/kin-icon-256.png" />
+    <link rel="apple-touch-icon" href="/kin-icon-180.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f5ef" />
+
+    <!-- 基础 SEO（zh 为默认，en 由运行时按系统语言切换） -->
+    <title>今安记 Kin Health · 家庭健康记录，只留在这台 iPhone</title>
+    <meta
+      name="description"
+      content="今安记（Kin Health）是一款 iPhone 家庭健康记录工具：慢病档案、趋势图、用药提醒与就诊计划。数据只保存在本机，不收集、不上传、无广告。"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="今安记 Kin Health" />
+    <!-- TODO: 上线前替换为正式域名 -->
+    <link rel="canonical" href="https://kinhealth.example.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="今安记 Kin Health" />
+    <meta property="og:title" content="今安记 Kin Health · 家庭健康记录，只留在这台 iPhone" />
+    <meta
+      property="og:description"
+      content="慢病档案、趋势图、用药提醒与就诊计划。数据只保存在本机，不收集、不上传。"
+    />
+    <meta property="og:url" content="https://kinhealth.example.com/" />
+    <meta property="og:image" content="https://kinhealth.example.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="今安记 Kin Health · 家庭健康记录，只留在这台 iPhone" />
+    <meta
+      name="twitter:description"
+      content="慢病档案、趋势图、用药提醒与就诊计划。数据只保存在本机，不收集、不上传。"
+    />
+    <meta name="twitter:image" content="https://kinhealth.example.com/og-image.jpg" />
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "今安记（Kin Health）",
+        "alternateName": ["今安记", "Kin Health"],
+        "url": "https://kinhealth.example.com/",
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "inLanguage": ["zh-CN", "en"],
+        "isAccessibleForFree": true,
+        "description": "今安记（Kin Health）是一款 iPhone 家庭健康记录工具：慢病档案、趋势图、用药提醒与就诊计划。数据只保存在本机，不收集、不上传、无广告。",
+        "featureList": [
+          "家庭多成员档案",
+          "慢病档案与健康趋势",
+          "时间线健康记录",
+          "用药提醒与就诊计划",
+          "疾病档案导出与导入",
+          "本地操作日志"
+        ],
+        "author": { "@type": "Organization", "name": "今安记 Kin Health" }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
