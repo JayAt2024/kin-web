@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: 上线前把 kinhealth.example.com 替换为正式域名 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kinhealth.example.com/</loc>
+    <loc>https://jayat2024.github.io/kin-web/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kinhealth.example.com/privacy</loc>
+    <loc>https://jayat2024.github.io/kin-web/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://kinhealth.example.com/terms</loc>
+    <loc>https://jayat2024.github.io/kin-web/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://kinhealth.example.com/disclaimer</loc>
+    <loc>https://jayat2024.github.io/kin-web/disclaimer</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>

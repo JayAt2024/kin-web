@@ -9,12 +9,17 @@ import { locale, type Locale } from '@/i18n'
 // 页面标题与描述按 locale 计算
 type LocaleText = Record<Locale, string>
 
-// TODO: 上线前替换为正式域名（canonical / OG / sitemap 均依赖它）
-export const SITE_URL = 'https://kinhealth.example.com'
+// GitHub Pages 部署地址（canonical / OG / sitemap 均依赖它）
+export const SITE_URL = 'https://jayat2024.github.io/kin-web'
+
+// 路由 base 与 vite base 保持一致：CI 注入 VITE_BASE=/kin-web/ 时为子路径，本地为 /
+const ROUTER_BASE = import.meta.env.BASE_URL.startsWith('/') ? import.meta.env.BASE_URL : '/'
 
 const router = createRouter({
   // history 模式：配合 scripts/prerender.mjs 预渲染静态页；SSR 环境用内存路由
-  history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
+  history: import.meta.env.SSR
+    ? createMemoryHistory(ROUTER_BASE)
+    : createWebHistory(ROUTER_BASE),
   // 带 hash（如 /#pro）时平滑滚动到对应区块，偏移量避开吸顶导航；否则回到页首
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, top: 76, behavior: 'smooth' }
