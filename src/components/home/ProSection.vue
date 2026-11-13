@@ -44,7 +44,7 @@ const perks = computed(() => t.value.pro.perks)
           <span class="mono pro__badge">SUBSCRIPTION</span>
         </div>
 
-        <h3 class="pro__card-title">Kin Health Pro</h3>
+        <h3 class="pro__card-title">{{ t.nav.brand }} Pro</h3>
         <p class="pro__card-sub">{{ t.pro.cardSub }}</p>
 
         <ul class="pro__card-list">

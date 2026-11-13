@@ -28,7 +28,7 @@ const contactEmail = 'coooooooderjay@gmail.com'
           <div class="footer__col">
             <h3>{{ t.footer.productTitle }}</h3>
             <router-link to="/#features">{{ t.footer.featuresLink }}</router-link>
-            <router-link to="/#pro">Kin Health Pro</router-link>
+            <router-link to="/#pro">{{ t.nav.brand }} Pro</router-link>
             <router-link to="/#faq">{{ t.footer.faqLink }}</router-link>
           </div>
           <div class="footer__col">

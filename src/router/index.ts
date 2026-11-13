@@ -36,7 +36,7 @@ const router = createRouter({
           component: Home,
           meta: {
             title: {
-              zh: '今安记 · 家庭健康记录，只留在这台 iPhone',
+              zh: '今安记 Kin Health · 家庭健康记录，只留在这台 iPhone',
               en: 'Kin Health · Family health records that stay on your iPhone',
             } satisfies LocaleText,
             description: {

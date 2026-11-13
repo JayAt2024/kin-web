@@ -62,14 +62,33 @@ const server = await createServer({
 })
 
 try {
-  const { renderPage } = await server.ssrLoadModule('/src/prerender-entry.ts')
+  const { renderPage, routeMetaText, SITE_URL } = await server.ssrLoadModule('/src/prerender-entry.ts')
   const template = readFileSync(resolve('dist/index.html'), 'utf-8')
+
+  // 把路由 meta 的 title / description / og:url / canonical 注入静态 HTML（默认中文）
+  function applyRouteMeta(page, route) {
+    const { title, description } = routeMetaText(route, 'zh')
+    const url = `${SITE_URL}${route === '/' ? '/' : route}`
+    // meta 标签在模板里是多行书写，用 [\s\S]*? 跨行匹配；替换用函数形式避免 $ 转义
+    return page
+      .replace(/<title>.*<\/title>/, () => `<title>${title}</title>`)
+      .replace(/<meta\s+name="description"[\s\S]*?content="[^"]*"/, () => `<meta name="description" content="${description}"`)
+      .replace(/<meta\s+property="og:title"[\s\S]*?content="[^"]*"/, () => `<meta property="og:title" content="${title}"`)
+      .replace(/<meta\s+property="og:description"[\s\S]*?content="[^"]*"/, () => `<meta property="og:description" content="${description}"`)
+      .replace(/<meta\s+name="twitter:title"[\s\S]*?content="[^"]*"/, () => `<meta name="twitter:title" content="${title}"`)
+      .replace(/<meta\s+name="twitter:description"[\s\S]*?content="[^"]*"/, () => `<meta name="twitter:description" content="${description}"`)
+      .replace(/<meta\s+property="og:url"[\s\S]*?content="[^"]*"/, () => `<meta property="og:url" content="${url}"`)
+      .replace(/<link\s+rel="canonical"[\s\S]*?href="[^"]*"/, () => `<link rel="canonical" href="${url}"`)
+  }
 
   for (const route of routes) {
     const html = await renderPage(route)
     // 用函数替换，避免渲染结果中的 $ 字符被当作特殊替换模式
-    const page = template.replace('<div id="app"></div>', () =>
-      `<div id="app">${inlineAssets(html)}</div>`,
+    const page = applyRouteMeta(
+      template.replace('<div id="app"></div>', () =>
+        `<div id="app">${inlineAssets(html)}</div>`,
+      ),
+      route,
     )
     const file = route === '/' ? 'dist/index.html' : `dist${route}/index.html`
     mkdirSync(dirname(resolve(file)), { recursive: true })
