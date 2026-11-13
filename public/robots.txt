@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jayat2024.github.io/kin-web/sitemap.xml
+Sitemap: https://kinhealth.jaytech.top/sitemap.xml

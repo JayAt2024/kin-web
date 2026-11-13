@@ -9,8 +9,8 @@ import { locale, type Locale } from '@/i18n'
 // 页面标题与描述按 locale 计算
 type LocaleText = Record<Locale, string>
 
-// GitHub Pages 部署地址（canonical / OG / sitemap 均依赖它）
-export const SITE_URL = 'https://jayat2024.github.io/kin-web'
+// 正式域名：境内解析到阿里云 ECS、境外解析到 GitHub Pages（DNS 分线路）
+export const SITE_URL = 'https://kinhealth.jaytech.top'
 
 // 路由 base 与 vite base 保持一致：CI 注入 VITE_BASE=/kin-web/ 时为子路径，本地为 /
 const ROUTER_BASE = import.meta.env.BASE_URL.startsWith('/') ? import.meta.env.BASE_URL : '/'

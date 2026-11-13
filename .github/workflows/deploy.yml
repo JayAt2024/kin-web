@@ -1,6 +1,9 @@
-# 构建并部署到 GitHub Pages
+# 构建产物同时部署到两个目标：
+#   1. GitHub Pages（境外访问）
+#   2. 阿里云 ECS（境内访问，Nginx 静态托管）
+# 域名：https://kinhealth.jaytech.top（阿里云云解析按境内/境外分线路）
 # 前置：仓库 Settings → Pages → Source 需选择 "GitHub Actions"
-name: Deploy to GitHub Pages
+name: Deploy (GitHub Pages + ECS)
 
 on:
   push:
@@ -13,7 +16,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: true
 
 jobs:
@@ -29,15 +32,21 @@ jobs:
 
       - run: npm ci
 
-      # 项目站点托管在 /kin-web/ 子路径下，base 必须与之一致（vite + vue-router 同步生效）
+      # 部署模式构建：根路径 + 独立资源文件（区别于本地单文件模式）
       - run: npm run build
         env:
-          VITE_BASE: /kin-web/
+          VITE_DEPLOY: 'true'
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
+          path: dist
+
+      # 供 deploy-ecs job 下载
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
           path: dist
 
   deploy:
@@ -49,3 +58,30 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # 需要配置仓库 Variables/Secrets 后才会执行：
+  #   Variable: ENABLE_ECS_DEPLOY = true
+  #   Secrets:  ECS_HOST / ECS_PORT / ECS_USER / ECS_WEB_ROOT / ECS_SSH_KEY
+  deploy-ecs:
+    if: ${{ vars.ENABLE_ECS_DEPLOY == 'true' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ECS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${{ secrets.ECS_PORT }}" "${{ secrets.ECS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Rsync dist to ECS
+        run: |
+          rsync -az --delete \
+            -e "ssh -p ${{ secrets.ECS_PORT }}" \
+            dist/ \
+            "${{ secrets.ECS_USER }}@${{ secrets.ECS_HOST }}:${{ secrets.ECS_WEB_ROOT }}/"
